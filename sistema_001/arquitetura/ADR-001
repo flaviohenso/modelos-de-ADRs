@@ -1,0 +1,36 @@
+ADR 001: Canal de Interação com o Cliente para Pedidos
+
+Status: Aceito
+Data: 26 de julho de 2025
+
+Contexto:
+Para o lançamento do novo sistema de lavanderia, é preciso definir qual será o principal canal tecnológico através do qual os clientes irão realizar e acompanhar seus pedidos. O projeto está em sua fase inicial, com uma equipe de desenvolvimento enxuta e um orçamento limitado. A solução escolhida precisa ser sustentável para o negócio nesse primeiro momento.
+
+Diretrizes de Decisão (Decision Drivers):
+1. Controle de Custos: A solução deve ter o menor custo possível de desenvolvimento e manutenção inicial.
+2. Simplicidade Técnica: A arquitetura deve ser simples de ser implementada e mantida por uma equipe pequena.
+3. Acessibilidade para o Cliente: O cliente deve ser capaz de fazer um pedido com o mínimo de barreiras (como a necessidade de instalar um software).
+4. Velocidade de Lançamento: A capacidade de lançar uma primeira versão funcional rapidamente é desejável.
+
+Opções Consideradas:
+1. Aplicação Web Responsiva: Um único site que funciona em navegadores de computadores e celulares. É a opção de menor custo e complexidade.
+2. Aplicativo Móvel Nativo: Desenvolver dois aplicativos separados, um para iOS e outro para Android. Oferece a melhor experiência, mas com o maior custo e complexidade.
+3. Bot para WhatsApp: Uma interface conversacional. Possui alta acessibilidade, mas limita a experiência do usuário ao formato de chat.
+
+Decisão:
+Fica decidido que o canal para os clientes realizarem pedidos será uma Aplicação Web Responsiva.
+
+Justificativa:
+Esta escolha alinha-se diretamente com as diretrizes prioritárias do projeto. A Aplicação Web representa o menor custo de desenvolvimento e a menor complexidade de manutenção, pois exige uma única base de código gerenciada por uma equipe enxuta. Embora tenha sido considerado que um aplicativo nativo pudesse oferecer uma experiência mais conveniente para alguns clientes, a decisão prioriza a viabilidade e sustentabilidade do projeto na fase inicial. Uma aplicação web remove a barreira da instalação, garantindo que qualquer cliente com um navegador possa usar o serviço imediatamente.
+
+Consequências:
+Positivas:
+* Custo Reduzido: O orçamento para desenvolvimento e hospedagem será significativamente menor do que seria para aplicativos nativos.
+* Manutenção Simplificada: A equipe se concentrará em uma única base de código.
+* Lançamento Rápido: O tempo para entregar a primeira versão do produto (MVP) é menor.
+* Alcance Imediato: Não há atrito para novos clientes, que não precisam se comprometer em baixar um aplicativo para fazer o primeiro pedido.
+
+Negativas (Trade-offs Aceitos):
+* Experiência do Usuário: A experiência não será tão fluida ou integrada ao sistema operacional do celular quanto a de um aplicativo nativo.
+* Engajamento: A marca não terá um "ícone" na tela inicial do usuário, o que pode diminuir o engajamento recorrente.
+* Acesso a Recursos: O acesso a recursos do celular, como notificações push avançadas e câmera, é mais limitado. 

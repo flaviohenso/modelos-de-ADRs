@@ -1,0 +1,34 @@
+ADR 004: Adoção de Arquitetura Monolítica Modular para o MVP
+
+Status: Aceito
+Data: 26 de julho de 2025
+
+Contexto:
+É necessário definir a estrutura arquitetural do backend. As opções são uma aplicação única (Monolito) ou um conjunto de serviços independentes (Microsserviços). A decisão deve refletir as prioridades do projeto: equipe pequena, orçamento limitado e a necessidade de lançar um MVP rapidamente.
+
+Diretrizes de Decisão (Decision Drivers):
+1. Velocidade de Desenvolvimento: Entregar o MVP no menor tempo possível.
+2. Simplicidade Operacional: A complexidade para implantar e gerenciar a aplicação deve ser a menor possível.
+3. Custo Inicial: Manter os custos de infraestrutura e desenvolvimento baixos.
+4. Foco da Equipe: Permitir que a equipe se concentre na lógica de negócio.
+
+Opções Consideradas:
+1. Arquitetura Monolítica Modular: Construir o backend como uma única aplicação implantável, com código organizado em módulos internos.
+2. Arquitetura de Microsserviços: Dividir o backend em múltiplos serviços independentes.
+
+Decisão:
+Fica decidido que o sistema será desenvolvido utilizando uma Arquitetura Monolítica Modular.
+
+Justificativa:
+Esta decisão é uma escolha estratégica para focar 100% dos esforços da equipe na construção das funcionalidades de negócio e na validação do produto. A complexidade e o custo da arquitetura de microsserviços são considerados um investimento prematuro para a fase atual do projeto.
+
+Consequências:
+Positivas:
+* Desenvolvimento Simplificado: Todo o desenvolvimento, teste e depuração ocorrem em uma única base de código.
+* Implantação Rápida e Fácil: O processo de build e deploy de uma única aplicação é trivial.
+* Custo Reduzido: Menor necessidade de recursos de infraestrutura.
+* Lançamento Rápido do MVP: É o caminho mais curto para colocar o produto nas mãos dos clientes.
+
+Negativas (Trade-offs Aceitos):
+* Dívida de Escalabilidade: Aceitamos o risco de que uma futura refatoração para extrair serviços possa ser necessária se o negócio crescer muito.
+* Plano de Mitigação: O monólito será projetado com uma clara separação de conceitos para facilitar uma futura migração, se necessária. 

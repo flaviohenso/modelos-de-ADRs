@@ -1,0 +1,36 @@
+ADR 002: Adoção de Java com Framework Spring Boot para o Backend
+
+Status: Aceito
+Data: 26 de julho de 2025
+
+Contexto:
+Após a decisão de desenvolver uma Aplicação Web Responsiva (ADR-001), é necessário selecionar a stack tecnológica para a construção do backend. O backend será responsável pela lógica de negócio, API para o frontend, segurança e persistência de dados. A escolha deve levar em conta as prioridades do projeto: custo, simplicidade de manutenção e, crucialmente, a produtividade da equipe existente.
+
+Diretrizes de Decisão (Decision Drivers):
+1. Produtividade da Equipe: Maximizar a eficiência do desenvolvimento, aproveitando o conhecimento existente na equipe.
+2. Maturidade do Ecossistema: A tecnologia deve possuir um ecossistema robusto e bibliotecas confiáveis para acelerar o desenvolvimento.
+3. Escalabilidade e Manutenibilidade: A escolha deve suportar o crescimento futuro do sistema e ser de fácil manutenção.
+4. Custo de Hospedagem: O custo para manter a aplicação em produção deve ser considerado.
+
+Opções Consideradas:
+1. Node.js (com Express ou NestJS): Vantajoso pelo uso de JavaScript/TypeScript, mas exigiria aprendizado da equipe.
+2. Python (com Django ou FastAPI): Conhecido pela simplicidade e desenvolvimento rápido, mas não é a especialidade da equipe.
+3. PHP (com Laravel): Opção com baixo custo de hospedagem, mas fora da zona de conforto tecnológica do time.
+4. Java (com Spring Boot): Tecnologia robusta, de alta performance e, mais importante, de profundo conhecimento da equipe de desenvolvimento.
+
+Decisão:
+Fica decidido que o backend do sistema de pedidos será desenvolvido utilizando a linguagem Java e o framework Spring Boot.
+
+Justificativa:
+Esta decisão é baseada na diretriz mais crítica para o projeto: a produtividade da equipe. A equipe já possui profundo conhecimento e experiência em Java e Spring Boot. Alavancar essa expertise irá acelerar drasticamente o desenvolvimento, reduzir os riscos do projeto e garantir um código de alta qualidade desde o início.
+
+Consequências:
+Positivas:
+* Velocidade e Eficiência: A equipe entregará funcionalidades de forma rápida e confiável.
+* Ecossistema Maduro: O Spring Boot oferece soluções prontas e testadas pela indústria para quase todos os desafios.
+* Performance e Escalabilidade: A plataforma Java é conhecida por sua robustez e capacidade de escalar.
+* Qualidade do Código: A forte tipagem do Java e a experiência da equipe resultarão em uma arquitetura mais sólida.
+
+Negativas (Trade-offs Aceitos):
+* Consumo de Recursos: Aplicações Java/Spring Boot podem ter um consumo de memória RAM um pouco maior, impactando levemente o custo de hospedagem.
+* Verbosity: O código Java pode ser ligeiramente mais verboso, embora as versões modernas tenham minimizado esse ponto. 

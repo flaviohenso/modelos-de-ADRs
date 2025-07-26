@@ -1,0 +1,34 @@
+ADR 005: Adoção de React como Framework para a Aplicação Frontend (SPA)
+
+Status: Aceito
+Data: 26 de julho de 2025
+
+Contexto:
+Para a interface da nossa Aplicação Web Responsiva (ADR-001), é necessário escolher um framework de desenvolvimento. A decisão precisa atender ao requisito de uma experiência fluida e ser compatível com o conhecimento da equipe.
+
+Diretrizes de Decisão (Decision Drivers):
+1. Qualidade da Experiência do Usuário (UX): A interface deve ser fluida, responsiva e dinâmica.
+2. Produtividade da Equipe: A escolha deve se alinhar com as competências existentes na equipe.
+3. Compatibilidade e Responsividade: A aplicação deve funcionar bem na maioria dos navegadores e dispositivos.
+4. Separação de Responsabilidades: O frontend deve ser desacoplado do backend.
+
+Opções Consideradas:
+1. Aplicação de Página Única (SPA) com React: Construir o frontend como um projeto separado. Permite criar interfaces ricas e dinâmicas. A equipe já possui conhecimento básico nesta tecnologia.
+2. Renderização no Lado do Servidor com Thymeleaf: Utilizar a tecnologia nativa do Spring Boot para gerar as páginas HTML. Resulta em uma experiência de usuário mais tradicional.
+
+Decisão:
+Fica decidido que o frontend será desenvolvido como uma Aplicação de Página Única (SPA) utilizando o framework React.
+
+Justificativa:
+A decisão é guiada pela diretriz da Qualidade da Experiência do Usuário. A necessidade de uma interface fluida e moderna é mais bem atendida pela arquitetura SPA, e o React é a tecnologia líder para este fim. Investir na capacitação da equipe em uma tecnologia que eles já iniciaram é uma escolha estratégica.
+
+Consequências:
+Positivas:
+* Experiência do Usuário Superior: Os clientes terão uma interação rápida e moderna.
+* Desacoplamento Limpo: O frontend (React) e o backend (Spring Boot) serão projetos completamente independentes.
+* Amplo Ecossistema: Acesso à vasta gama de bibliotecas e ferramentas do ecossistema React.
+* Atração de Talentos: O conhecimento em React é uma habilidade de mercado muito requisitada.
+
+Negativas (Trade-offs Aceitos):
+* Curva de Aprendizado: A equipe precisará dedicar tempo para aprofundar seus conhecimentos básicos em React.
+* Complexidade de Implantação: Teremos dois projetos distintos para implantar. 

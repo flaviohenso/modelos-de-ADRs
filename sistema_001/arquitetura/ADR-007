@@ -1,0 +1,36 @@
+ADR 007: Adoção de uma Abordagem Híbrida com PaaS e Hospedagem Estática para o MVP
+
+Status: Aceito
+Data: 26 de julho de 2025
+
+Contexto:
+Temos três partes distintas que precisam ser hospedadas: um frontend React, um backend Spring Boot e um banco de dados PostgreSQL. Precisamos de uma estratégia de implantação de baixo custo e que exija o mínimo de manutenção.
+
+Diretrizes de Decisão (Decision Drivers):
+1. Simplicidade Operacional: Minimizar o tempo gasto com configuração e manutenção de infraestrutura.
+2. Baixo Custo Inicial: Aproveitar planos gratuitos (free tiers).
+3. Velocidade de Implantação: O processo para publicar uma nova versão deve ser rápido e automatizado.
+4. Foco no Desenvolvimento: Permitir que a equipe se concentre no código, não em servidores.
+
+Opções Consideradas:
+1. Infraestrutura como Serviço (IaaS - ex: AWS EC2): Alugar servidores virtuais e configurar tudo manualmente. Extremamente complexo para o MVP.
+2. Plataforma como Serviço (PaaS - ex: Heroku, Render): Enviar o código e a plataforma cuida de toda a infraestrutura.
+3. Abordagem Híbrida: Usar a melhor ferramenta para cada parte: um serviço de hospedagem estática para o frontend e uma PaaS para o backend e banco de dados.
+
+Decisão:
+Fica decidida a adoção da Abordagem Híbrida:
+1. O Frontend React será implantado na Vercel.
+2. O Backend Spring Boot e o Banco de Dados PostgreSQL serão implantados na Render.com.
+
+Justificativa:
+Esta abordagem atende a todas as nossas diretrizes. Vercel é líder para aplicações React e Render.com oferece uma experiência similar para o backend e banco de dados, ambos com planos gratuitos generosos. Juntos, eles eliminam quase toda a carga de gerenciamento de infraestrutura.
+
+Consequências:
+Positivas:
+* Custo Inicial Zero: Aproveitando os planos gratuitos da Vercel e do Render.
+* Manutenção Quase Zero: A complexidade de gerenciar servidores é abstraída pelas plataformas.
+* Implantação Contínua (CI/CD) Simplificada: Integração direta com o repositório de código para publicações automáticas.
+* Performance Otimizada: O frontend é distribuído globalmente (CDN) pela Vercel.
+
+Negativas (Trade-offs Aceitos):
+* Dependência de Provedores: O projeto se torna dependente dos serviços e preços da Vercel e do Render, um risco aceitável para a fase de MVP. 

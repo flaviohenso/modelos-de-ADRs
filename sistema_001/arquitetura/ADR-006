@@ -1,0 +1,35 @@
+ADR 006: Adoção de Autenticação baseada em Token (JWT)
+
+Status: Aceito
+Data: 26 de julho de 2025
+
+Contexto:
+Nossa arquitetura com frontend desacoplado (React SPA) e backend (Spring Boot) exige um mecanismo de proteção de APIs que seja seguro, moderno e compatível com uma arquitetura stateless.
+
+Diretrizes de Decisão (Decision Drivers):
+1. Segurança: O mecanismo deve ser seguro contra ataques comuns.
+2. Stateless: A solução deve evitar armazenar o estado da sessão no servidor.
+3. Padrão de Mercado para SPAs: A escolha deve seguir as melhores práticas da indústria.
+4. Produtividade da Equipe: A implementação deve ser bem suportada pelo Spring Boot.
+
+Opções Consideradas:
+1. Autenticação baseada em Sessão e Cookies (Stateful): Abordagem tradicional, mas não ideal para APIs stateless.
+2. Autenticação baseada em Token com JWT (Stateless): Abordagem moderna, stateless e perfeita para a comunicação entre SPAs e APIs.
+3. Provedor de Identidade Externo (OAuth 2.0): Delega a autenticação para um serviço terceiro, adicionando custo e complexidade de fluxo.
+
+Decisão:
+Fica decidido que a autenticação e autorização serão implementadas usando Tokens JWT.
+
+Justificativa:
+JWT é o padrão de fato para proteger APIs consumidas por SPAs. A sua natureza stateless alinha-se perfeitamente com a nossa arquitetura e simplifica a escalabilidade. O Spring Security possui um suporte excelente para implementar fluxos baseados em JWT, maximizando a produtividade da equipe.
+
+Consequências:
+Positivas:
+* Arquitetura Limpa e Escalável: O backend permanece stateless.
+* Desacoplamento: O frontend só precisa saber como obter e enviar um token.
+* Segurança: JWTs são assinados digitalmente, protegendo contra manipulação.
+* Flexibilidade: Podemos incluir papéis (roles) e permissões no payload do JWT.
+
+Negativas (Trade-offs Aceitos):
+* Armazenamento no Cliente: O token JWT precisará ser armazenado de forma segura no frontend.
+* Invalidação de Token: A funcionalidade de "logout" no lado do cliente simplesmente descartará o token. Confiaremos na expiração curta dos tokens para invalidar sessões no MVP. 

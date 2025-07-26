@@ -1,0 +1,33 @@
+ADR 003: Adoção do PostgreSQL como Sistema de Gerenciamento de Banco de Dados
+
+Status: Aceito
+Data: 26 de julho de 2025
+
+Contexto:
+Com a arquitetura de backend definida como Java/Spring Boot (ADR-002), é imperativo selecionar um sistema de banco de dados (SGBD) para a persistência dos dados da aplicação. O sistema irá gerenciar entidades com relações claras entre si, como Clientes, Pedidos e Itens.
+
+Diretrizes de Decisão (Decision Drivers):
+1. Integridade e Confiabilidade dos Dados: A solução deve garantir a consistência transacional (ACID).
+2. Facilidade de Manutenção e Custo: A solução deve ser de baixo custo e fácil de manter.
+3. Produtividade de Desenvolvimento: Deve se integrar perfeitamente com a stack Java/Spring Boot.
+4. Performance: O banco de dados deve apresentar bom desempenho para as operações esperadas.
+
+Opções Consideradas:
+1. Bancos de Dados Relacionais (SQL): PostgreSQL / MySQL. Ideais para a natureza estruturada dos dados de uma lavanderia.
+2. Bancos de Dados Não Relacionais (NoSQL): MongoDB. Oferece flexibilidade, mas adiciona complexidade na gestão de relações e transações.
+
+Decisão:
+Fica decidido pela adoção do PostgreSQL como o banco de dados oficial do projeto.
+
+Justificativa:
+A decisão pelo PostgreSQL é fundamentada em sua alta confiabilidade transacional (ACID), essencial para um sistema de pedidos. Sua natureza relacional se alinha perfeitamente à estrutura de dados do negócio. Além disso, é open-source, possui opções de hospedagem gerenciada com planos gratuitos, e se integra de forma nativa e produtiva com a stack de backend escolhida.
+
+Consequências:
+Positivas:
+* Segurança dos Dados: A consistência dos dados é garantida pelo próprio banco de dados.
+* Desenvolvimento Acelerado: A equipe utilizará o Spring Data JPA, uma ferramenta poderosa e familiar.
+* Baixo Custo Inicial: A utilização de planos gratuitos em serviços de nuvem gerenciados elimina custos.
+* Comunidade e Documentação: Vasta comunidade e documentação extensa.
+
+Negativas (Trade-offs Aceitos):
+* Flexibilidade de Esquema Reduzida: Alterações na estrutura das tabelas exigem um processo mais formal (migrações), o que é um trade-off positivo para forçar disciplina no design. 
