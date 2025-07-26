@@ -1,0 +1,25 @@
+ADR 002: Pilha de Tecnologia para Back-end e Persistência de Dados
+
+Status: Aceito
+Contexto: A especificação técnica exige que o back-end seja desenvolvido em Java com Spring Boot 18e que o banco de dados seja
+
+NoSQL, especificamente MongoDB19. O sistema precisa armazenar dados variados, como informações de clientes com cartões de crédito 20, pedidos com múltiplos tipos de peças 21e pacotes de serviços com regras distintas22.
+
+
+Decisão:
+Back-end: Todos os microsserviços serão desenvolvidos utilizando Java na versão LTS mais recente e o framework Spring Boot23. Isso garante um ecossistema robusto, produtivo e com amplo suporte da comunidade, além de facilitar a implementação das melhores práticas e padrões de projeto24. As APIs serão documentadas com Swagger (OpenAPI)25.
+
+
+Banco de Dados: Utilizaremos o MongoDB como banco de dados principal26. A natureza flexível do seu esquema de documentos é ideal para armazenar pedidos (que podem ter uma estrutura variável), perfis de usuários e catálogos de serviços. Cada microsserviço terá seu próprio banco de dados para garantir o baixo acoplamento.
+
+
+Consequências:
+Positivas:
+O ecossistema Spring Boot acelera o desenvolvimento com funcionalidades como Spring Data (para integração com MongoDB), Spring Security e Spring Web.
+O MongoDB permite uma modelagem de dados mais natural para os domínios do problema (ex: um documento de "Pedido" contendo todas as suas informações), o que pode levar a um desempenho de leitura mais rápido para casos de uso comuns.
+A flexibilidade do esquema facilita a evolução do sistema, como a adição de novos tipos de pacotes ou cobranças no futuro27.
+
+
+Negativas:
+A equipe de desenvolvimento precisa ter proficiência tanto em Java/Spring Boot quanto em MongoDB.
+Transações ACID entre múltiplos documentos (ou entre serviços) não são nativas como em bancos de dados relacionais, exigindo padrões de design específicos para garantir a consistência.

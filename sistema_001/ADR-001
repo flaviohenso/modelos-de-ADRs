@@ -1,0 +1,36 @@
+ADR 001: Adoção de Arquitetura de Microsserviços
+
+Status: Aceito
+Contexto: O sistema precisa ser altamente disponível, operando 24 horas por dia 1, e escalável para atender a picos de demanda específicos, como finais de semana e períodos de início/meio do mês2. As funcionalidades abrangem desde o cadastro de clientes 3e gerenciamento de pedidos 4até o processamento de pagamentos 5e envio de notificações6. Além disso, o sistema deve ser projetado para a nuvem7. Essa complexidade e a necessidade de escalabilidade em partes específicas do sistema sugerem que uma arquitetura monolítica seria rígida e difícil de manter e escalar eficientemente.
+
+
+Decisão: Adotaremos uma arquitetura de microsserviços. As responsabilidades do sistema serão divididas em serviços menores, independentes e focados em domínios de negócio específicos. Os serviços iniciais planejados são:
+Serviço de Contas: Responsável pelo cadastro 8 e gerenciamento de dados do cliente.
+
+
+Serviço de Pedidos: Orquestra a criação 9e o ciclo de vida do pedido, incluindo a validação das regras de negócio10.
+
+
+Serviço de Agendamento: Gerencia os agendamentos de retirada e entrega, tratando conflitos de horário11.
+
+
+Serviço de Pagamentos e Faturamento: Lida com a lógica de cobrança (peça unitária ou pacote) 12, verifica pacotes contratados 13 e processa pagamentos.
+
+
+Serviço de Notificações: Envia todas as comunicações ao cliente via e-mail e outros canais sobre o status do pedido 141414e possíveis atrasos15.
+
+
+Consequências:
+Positivas:
+Escalabilidade: Cada serviço pode ser escalado de forma independente para atender às demandas de pico, conforme necessário16.
+
+
+Resiliência: A falha em um serviço (ex: Notificações) não derruba o sistema inteiro, como a criação de pedidos.
+Manutenibilidade: Times menores podem trabalhar em serviços independentes, acelerando o desenvolvimento e a implementação de novas funcionalidades.
+Flexibilidade Tecnológica: Embora o back-end inicial seja Java17, futuros serviços poderiam, teoricamente, usar tecnologias diferentes se necessário.
+
+
+Negativas:
+Complexidade Operacional: Exige um ecossistema mais complexo com service discovery, gerenciamento de configuração centralizado e monitoramento distribuído.
+Consistência de Dados: Requer estratégias para garantir a consistência dos dados entre os serviços (ex: Sagas ou coreografia de eventos).
+Testes: Testes de integração entre serviços se tornam mais complexos e cruciais.

@@ -1,0 +1,25 @@
+ADR 004: Estratégia de Implantação Cloud-Native e Portabilidade
+
+Status: Aceito
+Contexto: O sistema deve ser projetado para a nuvem ("cloud-native") e inicialmente implantado na AWS35. No entanto, uma requisito chave é a capacidade de
+
+mudar de provedor de nuvem a qualquer momento por razões de custo36. O sistema também deve ser escalável 37e operar 24/738.
+
+
+Decisão: Adotaremos uma estratégia de implantação baseada em contêineres com Docker e orquestração com Kubernetes.
+Contêineres (Docker): Cada microsserviço será empacotado como uma imagem Docker, garantindo que o ambiente de execução seja consistente desde o desenvolvimento local até a produção.
+Orquestração (Kubernetes): Usaremos Kubernetes para gerenciar os contêineres em produção. Kubernetes é o padrão de fato para orquestração e está disponível em todos os principais provedores de nuvem (AWS EKS, Google GKE, Azure AKS), o que atende diretamente ao requisito de portabilidade39. Ele também fornecerá auto-scaling, balanceamento de carga e recuperação de falhas para garantir a escalabilidade 40e a alta disponibilidade41.
+
+
+Consequências:
+Positivas:
+Portabilidade Máxima: Migrar de um provedor de nuvem para outro se torna uma tarefa significativamente mais simples e barata42.
+
+
+Escalabilidade Robusta: O Kubernetes pode escalar horizontalmente os serviços de forma automática com base no uso da CPU ou em métricas personalizadas, atendendo perfeitamente aos picos de demanda43.
+
+
+Ambiente Padronizado: A padronização via Docker e Kubernetes simplifica o pipeline de CI/CD e reduz problemas relacionados a diferenças de ambiente.
+Negativas:
+Curva de Aprendizagem: Kubernetes é uma plataforma complexa e exige conhecimento especializado para ser configurada e mantida corretamente.
+Overhead de Recursos: Um cluster Kubernetes consome seus próprios recursos (nós de controle, etc.), o que pode representar um custo inicial maior em comparação com soluções mais simples (ex: PaaS como Heroku ou Elastic Beanstalk).

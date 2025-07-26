@@ -1,0 +1,30 @@
+ADR 003: Comunicação Assíncrona via Mensageria
+
+Status: Aceito
+Contexto: O sistema deve processar os pedidos de forma assíncrona28. Além disso, uma série de notificações precisa ser enviada durante todo o ciclo de vida do pedido, desde a confirmação até o feedback29. A especificação também menciona explicitamente o uso de
+
+mensageria para melhorar a eficiência30.
+
+
+Decisão: Implementaremos um Message Broker (como RabbitMQ ou AWS SQS) para gerenciar a comunicação assíncrona entre os microsserviços. Os serviços publicarão eventos em tópicos ou filas, e outros serviços se inscreverão nesses eventos para reagir a eles. Por exemplo:
+O
+Serviço de Pedidos, após a confirmação de pagamento31, publicará um evento
+
+PedidoProntoParaRetirada.
+O Serviço de Agendamento consumirá esse evento para alocar a logística de retirada.
+O
+Serviço de Notificações consumirá o mesmo evento para informar ao cliente que a retirada foi agendada32.
+
+
+Consequências:
+Positivas:
+Desacoplamento: Os serviços não precisam se conhecer diretamente, apenas conhecer o "contrato" da mensagem.
+Resiliência e Eficiência: Se o serviço de Notificações estiver temporariamente fora do ar, as mensagens se acumularão na fila e serão processadas quando ele voltar, sem perda de informação e melhorando a eficiência geral33.
+
+
+Responsividade: O usuário final obtém uma resposta imediata (ex: "Pedido recebido"), enquanto o processamento pesado ocorre em segundo plano34.
+
+
+Negativas:
+Complexidade Adicional: O Message Broker é mais um componente na infraestrutura para ser monitorado e mantido.
+Rastreabilidade: Depurar um fluxo de trabalho que passa por múltiplos serviços e filas pode ser mais complexo do que uma chamada de pilha síncrona.
