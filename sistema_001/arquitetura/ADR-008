@@ -1,0 +1,88 @@
+ADR-008: Estratégia de Cache para a Arquitetura de Microserviços
+Status: Aceito
+
+Data: 2025-07-27
+
+Contexto
+Atualmente, a arquitetura não possui uma estratégia de cache centralizada e eficiente. Dados frequentemente acessados são carregados diretamente do banco de dados para a memória de cada instância de serviço (utilizando Lists ou Maps em Java). Este processo de carregamento é lento e repetido desnecessariamente para cada instância, resultando em um impacto negativo na performance e no tempo de inicialização dos jobs. 
+
+O ambiente atual utiliza a Azure como provedor de nuvem e um banco de dados relacional compartilhado. As tabelas de domínio que precisam de cache possuem um grande volume de dados e podem sofrer alterações a qualquer momento, o que exige uma estratégia robusta de invalidação e sincronização do cache. A solução de cache deve ser projetada para ser potencialmente consumida por múltiplos serviços.
+
+Forças e Restrições:
+
+Performance: O objetivo principal é obter um ganho de desempenho significativo nas aplicações.
+
+Consistência e Integridade: A solução deve garantir um alto nível de consistência e integridade dos dados cacheados em relação ao banco de dados.
+
+Disponibilidade: O sistema de cache precisa ser altamente disponível.
+
+Manutenibilidade: A solução deve ser de fácil manutenção pela equipe.
+
+Tecnologia: A infraestrutura é baseada em Azure, Kubernetes, Java, Spring Boot e Spring Batch. A equipe possui conhecimento avançado nessas tecnologias.
+
+
+Custo: A solução deve ter a melhor eficiência de custo possível, embora não haja um orçamento restrito. 
+
+
+Tempo: A implementação deve ocorrer no próximo trimestre (a partir de setembro). 
+
+Opções Consideradas
+1. Cache Distribuído com Redis e Invalidação via Kafka/CDC
+A solução consiste em implementar um cluster Redis (utilizando o Azure Cache for Redis). As alterações no banco de dados seriam capturadas em tempo real por uma ferramenta de Change Data Capture (CDC), como o Debezium. Essas alterações seriam publicadas em um tópico no Kafka, e um serviço consumidor dedicado seria responsável por processar essas mensagens e atualizar ou invalidar os dados correspondentes no Redis. 
+
+Prós:
+
+
+Cache Centralizado: Elimina a necessidade de carregar os dados em memória para cada instância de serviço, resolvendo o principal gargalo de performance. 
+
+
+Consistência em Tempo Real: O uso de CDC e Kafka garante que o cache seja atualizado quase que instantaneamente após uma alteração no banco de dados, atendendo ao requisito de alta consistência. 
+
+
+Simplificação do Acesso: Simplifica o processo de obtenção dos dados pelas aplicações, que passam a consumir de uma fonte de cache rápida e única. 
+
+
+Escalabilidade: A arquitetura é inerentemente escalável e desacoplada, permitindo que múltiplos serviços consumidores utilizem o mesmo cache. 
+
+Contras:
+
+A equipe não possui conhecimento aprofundado em Redis, exigindo uma curva de aprendizado. 
+
+A arquitetura resultante é significativamente mais complexa, introduzindo novos componentes (CDC, Kafka, Redis) que precisam ser gerenciados e monitorados. 
+
+Decisão
+Nós escolhemos a 
+
+Opção 1: Cache Distribuído com Redis e Invalidação via Kafka/CDC. 
+
+A principal razão para esta escolha é que ela resolve diretamente os problemas centrais identificados no contexto.  A implementação de um cache distribuído com Redis elimina a principal fonte de lentidão e redundância. A utilização de CDC com Kafka atende ao requisito crítico de manter o cache atualizado em tempo real, garantindo alta consistência dos dados. 
+
+
+Além disso, esta arquitetura desacopla a lógica de cache do código dos jobs. Isso não só simplifica o código das aplicações consumidoras, mas também centraliza a gestão do cache, facilitando futuras manutenções. A adoção desta abordagem é também uma decisão estratégica, alinhando nossa arquitetura com padrões de mercado modernos e escaláveis.
+
+Embora estejamos cientes dos riscos, eles serão mitigados ativamente.  A 
+
+curva de aprendizado será gerenciada através de um programa de especialização para os engenheiros sêniores. A complexidade da nova arquitetura será endereçada com a implementação de observabilidade ponta-a-ponta utilizando o Datadog e definindo um plano claro de orquestração para os novos microserviços.
+
+Consequências
+Positivas:
+
+Redução esperada de até 50% no tempo de execução dos jobs que dependem destes dados em cache. 
+
+Diminuição estimada em 70% da carga de leitura no banco de dados, liberando recursos para outras operações. 
+
+A arquitetura baseada em eventos abre portas para futuras melhorias, como a criação de uma plataforma de dados em tempo real para outros fins de negócio.
+
+Negativas/Riscos:
+
+Haverá um aumento do custo operacional na Azure devido à contratação dos serviços de Redis e Kafka. 
+
+Haverá um aumento no custo de licenciamento do Datadog para cobrir os novos componentes. 
+
+A equipe de sustentação e infra/SRE terá uma complexidade maior para gerenciar, dada a introdução de novos componentes críticos (Kafka, CDC). 
+
+Impacto Geral:
+
+A decisão introduz um padrão de comunicação assíncrona via eventos como um pilar central da arquitetura, que deve ser considerado para futuros desenvolvimentos. 
+
+Outras equipes de desenvolvimento serão incentivadas a consumir o cache centralizado em vez de criar suas próprias soluções, promovendo a reutilização e a padronização. 
